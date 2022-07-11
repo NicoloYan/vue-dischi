@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <PageHeader />
-    <AlbumList />
+    <PageHeader @changeGenre="setGenre"/>
+    <AlbumList :selectedGenre="selectedOption"/>
   </div>
 </template>
 
@@ -15,6 +15,18 @@ export default {
   components: {
     PageHeader,
     AlbumList
+  },
+
+  data() {
+    return {
+      selectedOption: ''
+    }
+  },
+
+  methods: {
+    setGenre(selectedOption) {
+      this.selectedOption = selectedOption;
+    }
   }
 }
 </script>

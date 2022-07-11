@@ -1,7 +1,7 @@
 <template>
     <main>
         <div class="container">
-            <div class="album_card" v-for="album, index in albumList" :key="index">
+            <div class="album_card" v-for="album, index in setActiveGenre" :key="index">
                 <SingleAlbum :info="album"/>
             </div>
         </div>
@@ -16,15 +16,42 @@ export default {
     components: {
         SingleAlbum,
     },
+
     data () {
         return {
             url: 'https://flynn.boolean.careers/exercises/api/array/music',
             albumList: [],
+            filteredArray: []
         }
     },
+
+    props: {
+        selectedGenre: String,
+    },
+
     created(){
         this.getAlbums();
     },
+
+    computed: {
+        setActiveGenre() {
+            let filteredArray = [];
+            if (this.selectedGenre == "") {
+                filteredArray = this.albumList
+            } 
+            else if (this.selectedGenre == "All") {
+                filteredArray = this.albumList
+            } else {
+                filteredArray = this.albumList.filter((element) => {
+                    if (element.genre == this.selectedGenre) {
+                        return element;
+                    }
+                })
+            }
+            return filteredArray;
+        },
+    },
+
     methods: {
         getAlbums() {
             axios.get(this.url).then((result) => {
@@ -32,6 +59,7 @@ export default {
             });
         }
     },
+
 }
 </script>
 
